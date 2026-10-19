@@ -1,0 +1,94 @@
+/* Reset default brower spacing */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main page */
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+    background: radial-gradient(ellipse at top left, #263c78, transparent 50%), radial-gradient(ellipse at bottom right, #512b72, transparent 50%), #101426;
+    padding: 24px;
+}
+
+/* Main application container */
+
+.app-continer {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Top navigation */
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 55px;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.brand-icon {
+    font-size: 30px;
+}
+
+.world-clock {
+    display:flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+}
+
+.world-clock label {
+    color: #c5cbe0;
+    font-size: 13px;
+}
+
+.clock-display {
+    font-size: 22px;
+    font-weight: bold;
+    font-variant-numeric: tabular-nums;
+}
+
+select {
+    padding: 9px 12px;
+    border: 1px solid #59617b;
+    border-radius: 8px;
+    background: #202842;
+    color:#ffffff;
+    font-size: 14px;
+}
+
+/* Timer panel */
+
+.timer-card {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 48px 32px;
+    text-align: center;
+
+    background: rgba(255, 255, 255, 0.07);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 24px;
+
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+}
+

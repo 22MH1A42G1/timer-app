@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer App | Stay on Time</title>
+    
+    <!-- Connect our CSS file-->
+    <link rel="stylesheet" href="{{url_for('static',filename='css/style.css')}}"
+</head>
+<body>
+    <main class="app-continer">
+        
+        <!-- Top section: Indian clock and time zone selection -->
+        <header class="top-bar">
+            <div class="brand">
+                <span class="brand-icon">⏲</span>
+                <span>Timer App</span>
+            </div>
+
+            <div class="world-clock">
+                <label for="timezone">Current time</label>
+                <div class="clock-display" id="world-clock">
+                    Loading time...
+                </div>
+                <select id="timezone" aria-label="Select a time zone">
+                    <option value="Asia/Kolkata">
+                        India (IST)
+                    </option>
+                    <option value="Europe/London">
+                        London
+                    </option>
+                    <option value="America/New_York">
+                        New York
+                    </option>
+                    <option value="Asia/Tokyo">
+                        Tokyo
+                    </option>
+                    <option value="Asia/Dubai">
+                        Dubai
+                    </option>
+                </select>
+            </div>
+         </header>
+
+         <!-- Main timer section -->
+          <section class="timer-card">
+            <p class="eyebrow">FOCUS YOUR TIME</p>
+            <h1>Your Time, Your Pace.</h1>
+
+            <p class="subtitle">
+                Set a duration, start your coundown, and stay focused.
+            </p>
+
+            <!-- Countdown display -->
+            <div class="countdown" id="countdown" role="timer" aria-live="off">
+                00:00:00
+            </div>
+
+            <p class="timer-status" id="timer-status" role="status" aria-live="polite">
+                Ready when you are
+            </p>
+             
+            <!-- Duration inputs -->
+            <div class="time-inputs">
+                <div class="input-group">
+                    <label for="hours">Hours</label>
+                    <input type="number" id="hours" min="0" max="999" value="0">
+                </div>
+                <div class="input-group">
+                    <label for="minutes">Minutes</label>
+                    <input type="number" id="minutes" min="0" max="59" value="5">
+                </div>
+                <div class="input-group">
+                    <label for="seconds">Seconds</label>
+                    <input type="number" id="seconds" min="0" max="59" value="0">
+                </div>
+            </div>
+
+            <!-- Time controls -->
+            <div class="timer-controls">
+                <button type="button" id="start-btn" class="btn btn-primary">
+                    ▶ Start
+                </button>
+
+                <button type="button" id="pause-btn" class="btn btn-secondary">
+                    ⏸ Pause
+                </button>
+
+                <button type="button" id="resume-btn" class="btn btn-secondary">
+                    ▶ Resume
+                </button>
+
+                <button type="button" id="stop-btn" class="btn btn-danger">
+                    ⏹ Stop
+                </button>
+
+                <button type="button" id="reset-btn" class="btn btn-secondary">
+                    🔁 Reset 
+                </button>
+            </div>
+
+            <p class="footer-note">
+                Every second counts. Make yours meaningful.
+            </p>
+          </section>
+    </main>
+
+    <!-- Connect our JavaScript file -->
+    <script src="{{ url_for('static',filename='js/timer.js') }}" defer></script>
+</body>
+</html>

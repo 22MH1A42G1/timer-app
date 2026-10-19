@@ -1,0 +1,27 @@
+/* Reset default brower spacing */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Main page */
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #ffffff;
+    background: radial-gradient(ellipse at top left, #263c78, transparent 50%), radial-gradient(ellipse at bottom right, #512b72, transparent 50%), #101426;
+    padding: 24px;
+}
+
+/* Main application container */
+
+.app-continer {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+/* Top navigation */
