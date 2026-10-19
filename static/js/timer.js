@@ -52,6 +52,138 @@ const durationInputs = [
     secondsInput
 ];
 
+/* ==========================================
+   ALARM SOUND ENGINE
+========================================== */
+
+const enableAlarmButton =
+    document.getElementById("enable-alarm-btn");
+
+const dismissAlarmButton =
+    document.getElementById("dismiss-alarm-btn");
+
+let audioContext = null;
+let alarmIntervalId = null;
+let alarmEnabled = false;
+
+async function enableAlarmSound() {
+    try {
+        const AudioContextClass =
+            window.AudioContext || window.webkitAudioContext;
+
+        if (!AudioContextClass) {
+            statusDisplay.textContent =
+                "Your browser does not support alarm audio.";
+            return;
+        }
+
+        if (!audioContext) {
+            audioContext = new AudioContextClass();
+        }
+
+        if (audioContext.state === "suspended") {
+            await audioContext.resume();
+        }
+
+        alarmEnabled = audioContext.state === "running";
+
+        if (alarmEnabled) {
+            enableAlarmButton.textContent = "✓ Alarm Sound Enabled";
+
+            if (timerState === "completed") {
+                statusDisplay.textContent =
+                    "Time is up! Alarm is ringing.";
+                startAlarm();
+            } else {
+                statusDisplay.textContent =
+                    "Alarm sound is enabled and ready.";
+            }
+        } else {
+            statusDisplay.textContent =
+                "Audio is not active. Please try again.";
+        }
+    } catch (error) {
+        console.error("Could not enable alarm sound:", error);
+
+        statusDisplay.textContent =
+            "Could not enable audio. Check browser permissions.";
+    }
+}
+
+function playAlarmBeep() {
+    if (!audioContext || !alarmEnabled ||
+        audioContext.state !== "running") {
+        return;
+    }
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+
+    // A clear, high-pitched alarm tone.
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(
+        880, audioContext.currentTime
+    );
+
+    // Fade the beep in and out to avoid clicks.
+    gain.gain.setValueAtTime(0.001, audioContext.currentTime);
+    gain.gain.exponentialRampToValueAtTime(
+        0.18, audioContext.currentTime + 0.03
+    );
+    gain.gain.exponentialRampToValueAtTime(
+        0.001, audioContext.currentTime + 0.35
+    );
+
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    oscillator.start();
+    oscillator.stop(audioContext.currentTime + 0.36);
+
+    oscillator.addEventListener("ended", () => {
+        oscillator.disconnect();
+        gain.disconnect();
+    }, { once: true });
+}
+
+function startAlarm() {
+    // Prevent duplicate alarm loops.
+    stopAlarm();
+
+    dismissAlarmButton.hidden = false;
+
+    if (!alarmEnabled || !audioContext ||
+        audioContext.state !== "running") {
+        statusDisplay.textContent =
+            "Time is up! Click Enable Alarm Sound, then try again.";
+        return;
+    }
+
+    // Ring immediately, then repeat approximately every 800 ms.
+    playAlarmBeep();
+    alarmIntervalId = setInterval(playAlarmBeep, 800);
+}
+
+function stopAlarm() {
+    if (alarmIntervalId !== null) {
+        clearInterval(alarmIntervalId);
+        alarmIntervalId = null;
+    }
+
+    dismissAlarmButton.hidden = true;
+}
+
+enableAlarmButton.addEventListener(
+    "click", enableAlarmSound
+);
+
+dismissAlarmButton.addEventListener("click", () => {
+    stopAlarm();
+
+    statusDisplay.textContent =
+        "Alarm dismissed. Your timer has finished.";
+});
+
 
 // ==========================================
 // PART 3: TIMER STATE
@@ -343,6 +475,8 @@ async function completeTimer() {
         "Time is up! Your countdown is complete.";
 
     updateControls();
+
+    startAlarm();
 
     // Ask permission only after a user action
     // has initiated the countdown.

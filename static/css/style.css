@@ -419,3 +419,38 @@ select {
         padding: 12px 10px;
     }
 }
+
+
+/* Alarm controls */
+.alarm-controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+#enable-alarm-btn {
+    border-color: rgba(140, 175, 255, 0.4);
+}
+
+#dismiss-alarm-btn {
+    background: #c52d4b;
+    animation: alarmPulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes alarmPulse {
+    from {
+        box-shadow: 0 0 5px rgba(255, 50, 90, 0.2);
+    }
+
+    to {
+        box-shadow: 0 0 18px rgba(255, 50, 90, 0.65);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    #dismiss-alarm-btn {
+        animation: none;
+    }
+}
